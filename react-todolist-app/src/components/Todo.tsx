@@ -6,6 +6,8 @@ import { useState } from "react";
 const Todo = () => {
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState<any>([]);
+  const [editing, setEditing] = useState(null);
+  const [editText, setEditText] = useState("");
 
   const handleChange = (e) => {
     setTodo(e.target.value);
@@ -15,8 +17,15 @@ const Todo = () => {
     if (!todo) {
       return;
     }
-    setTodoList([...todoList, { text: todo, complete: false }]);
-    setTodo("");
+    if (editing !== null) {
+      const newTodos = [...todoList];
+      newTodos[editing].text = editText;
+      setEditing(null);
+      setEditText("");
+    } else {
+      setTodoList([...todoList, { text: todo, complete: false }]);
+      setTodo("");
+    }
   };
 
   const handleComplete = (index) => {
@@ -24,6 +33,17 @@ const Todo = () => {
     const newTodos = [...todoList];
     newTodos[index].complete = !newTodos[index].complete;
     setTodoList(newTodos);
+  };
+
+  const handleDelete = (index) => {
+    const newTodos = todoList.filter((_, i) => i !== index);
+    setTodoList(newTodos);
+  };
+
+  const handleEditTodo = (index) => {
+    setEditing(index);
+    setEditText(todoList[index].text);
+    setTodo(todoList[index].text);
   };
   return (
     <div className="container">
@@ -37,11 +57,15 @@ const Todo = () => {
           className="form-control"
           id="exampleFormControlInput1"
           placeholder="name@example.com"
-          onChange={handleChange}
-          value={todo}
+          onChange={(e) =>
+            editing !== null
+              ? setEditText(e.target.value)
+              : setTodo(e.target.value)
+          }
+          value={editing !== null ? editText : todo}
         />
         <button className="btn btn-primary" onClick={handleSubmit}>
-          Submit
+          {editing !== null ? "Edit Todo" : "Add Todo"}
         </button>
       </div>
       {todoList.map((todo, index) => {
@@ -49,14 +73,17 @@ const Todo = () => {
           <ul>
             <li
               key={index}
-              onClick={() => handleComplete(index)}
+              // onClick={() => handleComplete(index)}
               className={todo.complete ? "complete" : ""}
             >
               {todo.text}
-              <button className="btn btn-warning">
+              <button className="btn btn-warning" onClick={() => handleEditTodo(index)}>
                 <FontAwesomeIcon icon={faPenToSquare} />
               </button>
-              <button className="btn btn-danger">
+              <button
+                className="btn btn-danger"
+                onClick={() => handleDelete(index)}
+              >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
             </li>
