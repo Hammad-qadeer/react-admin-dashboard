@@ -24,19 +24,19 @@ const Todo = () => {
     }
   };
 
-  const handleComplete = (index) => {
-    debugger;
-    const newTodos = [...todoList];
-    newTodos[index].complete = !newTodos[index].complete;
+  // const handleComplete = (index) => {
+  //   debugger;
+  //   const newTodos = [...todoList];
+  //   newTodos[index].complete = !newTodos[index].complete;
+  //   setTodoList(newTodos);
+  // };
+
+  const handleDelete = (index: any) => {
+    const newTodos = todoList.filter((_: any, i: any) => i !== index);
     setTodoList(newTodos);
   };
 
-  const handleDelete = (index) => {
-    const newTodos = todoList.filter((_, i) => i !== index);
-    setTodoList(newTodos);
-  };
-
-  const handleEditTodo = (index) => {
+  const handleEditTodo = (index: any) => {
     setEditing(index);
     setEditText(todoList[index].text);
     setTodo(todoList[index].text);
@@ -64,7 +64,7 @@ const Todo = () => {
           {editing !== null ? "Edit Todo" : "Add Todo"}
         </button>
       </div>
-      {todoList.map((todo, index) => {
+      {todoList.map((todo: any, index: any) => {
         return (
           <ul>
             <li
@@ -73,7 +73,10 @@ const Todo = () => {
               className={todo.complete ? "complete" : ""}
             >
               {todo.text}
-              <button className="btn btn-warning" onClick={() => handleEditTodo(index)}>
+              <button
+                className="btn btn-warning"
+                onClick={() => handleEditTodo(index)}
+              >
                 <FontAwesomeIcon icon={faPenToSquare} />
               </button>
               <button
