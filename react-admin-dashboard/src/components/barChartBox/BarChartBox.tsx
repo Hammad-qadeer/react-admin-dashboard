@@ -1,7 +1,7 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip } from 'recharts';
 import './barChartBox.scss'
 
-const BarChartBox = (props) => {
+const BarChartBox = (props: any) => {
   return (
     <div className="barChartBox">
       <h1>{props.title}</h1>
