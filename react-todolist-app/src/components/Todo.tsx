@@ -9,10 +9,6 @@ const Todo = () => {
   const [editing, setEditing] = useState(null);
   const [editText, setEditText] = useState("");
 
-  const handleChange = (e) => {
-    setTodo(e.target.value);
-  };
-
   const handleSubmit = () => {
     if (!todo) {
       return;
