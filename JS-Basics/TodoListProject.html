@@ -139,10 +139,6 @@
 
       function update() {
         console.log("button clicked");
-
-        tit = document.getElementById("title").value;
-        desc = document.getElementById("description").value;
-
         if (localStorage.getItem("itemsJson") == null) {
           itemJsonArray = [];
           localStorage.setItem("itemsJson", JSON.stringify(itemJsonArray));
